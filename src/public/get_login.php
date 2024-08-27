@@ -1,7 +1,7 @@
 <main class="main">
     <div class="app app__dark">
         <header class="app-header">
-            <img src="https://res.cloudinary.com/linuxmachinecloud/image/upload/v1695134236/codepen/login-form/nw9mzwltearfjmfqlujk.png" class="app-logo" alt="logo">
+            <img src="https://uploads.turbologo.com/uploads/design/preview_image/321138/preview_image20210819-17584-1a2zumt.png" class="app-logo" alt="logo">
         </header>
 
         <form class="login" action="handle_login.php" method="POST">
@@ -9,20 +9,22 @@
             <div class="login-input-group">
                 <div class="login-floating-label-form-group login-floating-label-form-group__dark">
                     <label>Имя пользователя</label>
-                    <label style="color: red"><?php if (isset($errors['username']))
+                    <label style="..."><?php if (isset($errors['username']))
                         {
                             echo $errors['username'];
-                        }?></label>
+                        }?>
+                    </label>
                     <input class="login-form-control login-form-control__dark" type="text" name="username" placeholder="Имя пользователя" />
                     <p class="help-block text-danger"></p>
                 </div>
 
                 <div class="login-floating-label-form-group login-floating-label-form-group__dark">
                     <label>Пароль</label>
-                    <label style="color: red"><?php if (isset($errors['password']))
+                    <label style="..."><?php if (isset($errors['password']))
                         {
                             echo $errors['password'];
-                        }?></label>
+                        }?>
+                    </label>
                     <input class="login-form-control login-form-control__dark" type="password" name="password" placeholder="Пароль" />
                     <p class="help-block text-danger"></p>
                 </div>
@@ -76,7 +78,7 @@ background-color: white;
 }
 
 .app__dark {
-background-color: #282c34;
+background-color: white;
 }
 
 .app-header {
@@ -123,7 +125,7 @@ margin-bottom: 3rem;
 
 .login-floating-label-form-group {
 position: relative;
-border-bottom: 1px solid #e9ecef;
+border-bottom: 1px solid wheat;
 }
 
 .login-floating-label-form-group input {
@@ -222,14 +224,14 @@ background-color: black;
 
 .btn__dark {
 color: #d5cdc4;
-border: 1px solid #d5cdc4;
+border: 1px solid wheat;
 }
 
 .btn__dark:focus,
 .btn__dark:hover
 {
 color: #282c34;
-background-color: #d5cdc4;
+background-color: wheat;
 }
 
 .btn__xl {
