@@ -1,5 +1,5 @@
 <?php
-class User
+class UserController
 {
     public function registrate()
     {
@@ -12,16 +12,15 @@ class User
 
             $pswHashed = password_hash($psw, PASSWORD_DEFAULT);
 
-            $pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", "dbuser", "dbpwd");
+            $userModel = new User();
 
-            $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :psw)");
-            $stmt->execute(['name' => $name, 'email' => $email, 'psw' => $pswHashed]);
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-            $stmt->execute(['email' => $email]);
-            $result = $stmt->fetch();
+            $userModel->create($name, $email, $pswHashed);
+
+            $userModel->getOneByEmail($email);
+
             header("Location: /get_login.php");
         }
-        require_once './get_registration.php';
+        require_once './../View/get_registration.php';
     }
     public function login()
     {
@@ -31,11 +30,8 @@ class User
             $username = $_POST['username'];
             $password = $_POST['password'];
 
-            $pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", "dbuser", "dbpwd");
-
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-            $stmt->execute(['email' => $username]);
-            $result = $stmt->fetch();
+            $userModel = new User();
+            $result = $userModel->getOneByEmail($username);
 
             if (empty($result)) {
                 $errors['username'] = 'Email or Password is incorrect';
@@ -49,7 +45,7 @@ class User
                 }
             }
         }
-        require_once './get_login.php';
+        require_once './../View/get_login.php';
 
     }
     private function validate(array $data)
@@ -75,10 +71,9 @@ class User
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errors['email'] = 'Введите корректный email.';
             } else {
-                $pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", "dbuser", "dbpwd");
-                $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
-                $stmt->execute(['email' => $email]);
-                if ($stmt->fetchColumn() > 0) {
+                $userModel = new User();
+                $result = $userModel->getOneByEmail($data['email']);
+                if (!empty($result)) {
                     $errors['email'] = 'Email уже зарегистрирован в системе.';
                 }
             }
@@ -134,4 +129,5 @@ class User
         }
         return $errors;
     }
+
 }

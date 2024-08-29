@@ -1,9 +1,9 @@
 <?php
 
-require_once './classes/Tovar.php';
+require_once './../Controller/ProductController.php';
 
-$tovar = new Tovar();
+$product = new ProductController();
 
-$tovar->catalog();
+$product->catalog();
 
 ?>
