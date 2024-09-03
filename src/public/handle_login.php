@@ -1,8 +1,8 @@
 <?php
 
-require_once './classes/User.php';
+require_once './../Controller/UserController.php';
 
-$user = new User();
+$user = new UserController();
 
 $user->login();
 
