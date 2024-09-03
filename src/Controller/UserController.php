@@ -1,4 +1,6 @@
 <?php
+
+require_once './../Model/User.php';
 class UserController
 {
     public function registrate()
