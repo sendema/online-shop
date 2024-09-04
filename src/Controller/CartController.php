@@ -1,25 +1,29 @@
 <?php
+
+require_once './../Model/UserProduct.php';
+require_once './../Model/Product.php';
+
 class CartController
 {
-    public function cart()
+    public function addProduct()
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
             header("Location: /get_login.php");
         }
         $errors = $this->validate($_POST);
-        $user_id = $_SESSION['user_id'];
+        $userId = $_SESSION['user_id'];
         if (empty($errors)) {
-            $product_id = $_POST['product_id'];
+            $productId = $_POST['product_id'];
             $amount = $_POST['amount'];
             $userProductModel = new UserProduct();
-            $result = $userProductModel->existProduct($product_id);
+            $result = $userProductModel->existProduct($productId, $userId);
             if (empty($result)) {
                 $userProductModel = new UserProduct();
-                $userProductModel->addProduct($user_id, $product_id, $amount);
+                $userProductModel->addProduct($userId, $productId, $amount);
             } else {
                 $userProductModel = new UserProduct();
-                $userProductModel->updateAmount($user_id, $product_id, $amount);
+                $userProductModel->updateAmount($userId, $productId, $amount);
             }
         }
         require_once './../View/get_add_product.php';
@@ -29,8 +33,8 @@ class CartController
         {
             $errors = [];
             if (isset($data['product_id'])) {
-                $product_id = $data['product_id'];
-                if (empty($product_id)) {
+                $productId = $data['product_id'];
+                if (empty($productId)) {
                     $errors['product_id'] = 'Id товара не может быть пустым.';
                 } else {
                     $userProductModel = new UserProduct();
@@ -52,5 +56,29 @@ class CartController
             }
             return $errors;
         }
+    }
+
+    public function getCart()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /get_login.php");
+        }
+
+        $userId = $_SESSION['user_id'];
+
+        $userProductModel = new UserProduct();
+        $userProducts = $userProductModel->getAllByUserId($userId);
+
+        $productModel = new Product();
+        $products = [];
+        foreach ($userProducts as $userProduct) {
+            $product = $productModel->getOneByProductId($userProduct['product_id']);
+            $product['amount'] = $userProduct['amount'];
+
+            $products[] = $product;
+        }
+
+        require_once './../View/cart.php';
     }
 }

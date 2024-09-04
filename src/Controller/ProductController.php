@@ -1,4 +1,6 @@
 <?php
+
+require_once './../Model/Product.php';
 class ProductController
 {
     public function catalog()
@@ -6,12 +8,12 @@ class ProductController
         session_start();
         if (!isset($_SESSION['user_id'])) {
             header("Location: /get_login.php");
-    }
+        }
 
-    $productModel = new Product();
-    $products = $productModel->getAll();
+        $productModel = new Product();
+        $products = $productModel->getAll();
 
-    require_once './../View/get_catalog.php';
+        require_once './../View/get_catalog.php';
 
     }
 }
