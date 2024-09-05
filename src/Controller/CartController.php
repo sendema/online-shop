@@ -28,6 +28,10 @@ class CartController
         }
         require_once './../View/get_add_product.php';
     }
+    public function getAddProduct()
+    {
+        require_once './../View/get_add_product.php';
+    }
     private function validate(array $data)
     {
         {
