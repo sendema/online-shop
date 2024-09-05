@@ -5,7 +5,7 @@ class UserProduct
     {
         $pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", "dbuser", "dbpwd");
 
-        $stmt = $pdo->prepare("SELECT * FROM products WHERE id_product = :product_id");
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :product_id");
         $stmt->execute(['product_id' => $productId]);
         $result = $stmt->fetch();
 

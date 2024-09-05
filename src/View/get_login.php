@@ -4,7 +4,7 @@
             <img src="https://uploads.turbologo.com/uploads/design/preview_image/321138/preview_image20210819-17584-1a2zumt.png" class="app-logo" alt="logo">
         </header>
 
-        <form class="login" action="/handle_login.php" method="POST">
+        <form class="login" action="/index.php" method="POST">
 
             <div class="login-input-group">
                 <div class="login-floating-label-form-group login-floating-label-form-group__dark">

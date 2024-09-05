@@ -24,6 +24,10 @@ class UserController
         }
         require_once './../View/get_registration.php';
     }
+    public function getLogin()
+    {
+        require_once './../View/get_login.php';
+    }
     public function login()
     {
         $errors = $this->validateLog($_POST);
