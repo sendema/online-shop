@@ -1,7 +1,8 @@
 <div class="container">
-    <h3>Каталог</h3>
+    <h3>Корзина</h3>
     <div class="card-deck">
         <?php foreach($products as $product): ?>
+        <form action="/order" method="POST">
             <div class="card text-center">
                 <a href="#">
                     <div class="card-header">
@@ -15,6 +16,7 @@
                         </div>
                             <?php echo 'Количество: ' . $product['amount'] . ' шт.'; ?>
                     </div>
+                    <button type="submit" class="registerbtn">Оформить заказ</button>
                 </a>
             </div>
         <?php endforeach; ?>

@@ -9,7 +9,7 @@ class CartController
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
-            header("Location: /get_login.php");
+            header("Location: /login");
         }
         $errors = $this->validate($_POST);
         $userId = $_SESSION['user_id'];
@@ -17,7 +17,7 @@ class CartController
             $productId = $_POST['product_id'];
             $amount = $_POST['amount'];
             $userProductModel = new UserProduct();
-            $result = $userProductModel->existProduct($productId, $userId);
+            $result = $userProductModel->existProduct($productId, $userId,);
             if (empty($result)) {
                 $userProductModel = new UserProduct();
                 $userProductModel->addProduct($userId, $productId, $amount);
@@ -26,7 +26,7 @@ class CartController
                 $userProductModel->updateAmount($userId, $productId, $amount);
             }
         }
-        require_once './../View/get_add_product.php';
+        header("Location: /catalog");
     }
     public function getAddProduct()
     {
@@ -34,7 +34,6 @@ class CartController
     }
     private function validate(array $data)
     {
-        {
             $errors = [];
             if (isset($data['product_id'])) {
                 $productId = $data['product_id'];
@@ -59,14 +58,13 @@ class CartController
                 $errors['amount'] = 'Amount не указан.';
             }
             return $errors;
-        }
     }
 
     public function getCart()
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
-            header("Location: /get_login.php");
+            header("Location: /login");
         }
 
         $userId = $_SESSION['user_id'];
