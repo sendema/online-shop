@@ -2,6 +2,7 @@
     <h3>Каталог</h3>
     <div class="card-deck">
         <?php foreach($products as $product): ?>
+        <form action="/addProduct" method="POST">
             <div class="card text-center">
                 <a href="#">
                     <div class="card-header">
@@ -16,8 +17,13 @@
                     </div>
                 </a>
             </div>
+            <input type="hidden" id="product_id" name="product_id" value="<?php echo $product['id']; ?>" required>
+            <input type="text" id="amount" name="amount" required>
+            <button type="submit" class="registerbtn">Добавить в корзину</button>
+        </form>
         <?php endforeach; ?>
 
+        <a href="/cart" class="cart-button">Перейти в корзину</a>
 <style>
             body {
                 font-style: sans-serif;

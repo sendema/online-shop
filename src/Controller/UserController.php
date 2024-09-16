@@ -20,8 +20,13 @@ class UserController
 
             $userModel->getOneByEmail($email);
 
-            header("Location: /get_login.php");
+            header("Location: /login");
         }
+        require_once './../View/get_registration.php';
+    }
+
+    public function getRegistrate()
+    {
         require_once './../View/get_registration.php';
     }
     public function getLogin()
@@ -45,7 +50,7 @@ class UserController
                 if (password_verify($password, $result['password'])) {
                     session_start();
                     $_SESSION['user_id'] = $result['id'];
-                    header("Location: /catalog.php");
+                    header("Location: /catalog");
                 } else {
                     $errors['password'] = 'Email or Password is incorrect';
                 }
@@ -135,5 +140,4 @@ class UserController
         }
         return $errors;
     }
-
 }
