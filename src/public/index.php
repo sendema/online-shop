@@ -1,15 +1,21 @@
 <?php
 
-require_once './../View/App.php';
+$autoloader = function (string $className) {
+    $modifiedClassName = str_replace('\\', '/', $className);
+    $path = __DIR__ . "/../$modifiedClassName.php";
 
-/*$autoloader = function (string $className) {
-    require_once __DIR__ . "/../className.php";
+    if (file_exists($path)) {
+        require_once $path;
+        return true;
+    }
+    return false;
 };
 
-spl_autoload_register($autoloader);*/
+spl_autoload_register($autoloader);
 
 $app = new App();
 $app->run();
+
 
 
 

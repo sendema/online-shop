@@ -1,61 +1,62 @@
 <?php
-
-require_once './../Controller/UserController.php';
-require_once './../Controller/ProductController.php';
-require_once './../Controller/CartController.php';
-require_once './../Controller/OrderController.php';
 class App
 {
     private array $routes = [
         '/login' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => 'Controller\UserController',
                 'method' => 'getLogin',
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => 'Controller\UserController',
                 'method' => 'login',
             ],
         ],
         '/registrate' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => 'Controller\UserController',
                 'method' => 'getRegistrate',
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => 'Controller\UserController',
                 'method' => 'registrate',
             ],
         ],
         '/catalog' => [
             'GET' => [
-                'class' => 'ProductController',
+                'class' => 'Controller\ProductController',
                 'method' => 'catalog',
             ],
         ],
         '/addProduct' => [
             'GET' => [
-                'class' => 'CartController',
+                'class' => 'Controller\CartController',
                 'method' => 'getAddProduct',
             ],
             'POST' => [
-                'class' => 'CartController',
+                'class' => 'Controller\CartController',
                 'method' => 'addProduct',
+            ],
+        ],
+        '/deleteProduct' => [
+            'POST' => [
+                'class' => 'Controller\CartController',
+                'method' => 'deleteProduct',
             ],
         ],
         '/cart' => [
             'GET' => [
-                'class' => 'CartController',
+                'class' => 'Controller\CartController',
                 'method' => 'getCart',
             ],
         ],
         '/order' => [
             'GET' => [
-                'class' => 'OrderController',
+                'class' => 'Controller\OrderController',
                 'method' => 'getOrder',
             ],
             'POST' => [
-                'class' => 'OrderController',
+                'class' => 'Controller\OrderController',
                 'method' => 'order',
             ],
         ],

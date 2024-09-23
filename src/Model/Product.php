@@ -1,6 +1,7 @@
 <?php
 
-require_once './../Model/Model.php';
+namespace Model;
+use PDO;
 class Product extends Model
 {
     public function getAll(): array|false
