@@ -1,7 +1,9 @@
 <?php
 
-require_once './../Model/UserProduct.php';
-require_once './../Model/Product.php';
+namespace Controller;
+
+use Model\UserProduct;
+use Model\Product;
 
 class CartController
 {
@@ -27,6 +29,22 @@ class CartController
             }
         }
         header("Location: /catalog");
+    }
+    public function deleteProduct()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+        }
+        $errors = $this->validateDelete($_POST);
+        $userId = $_SESSION['user_id'];
+        if (empty($errors)) {
+            $productId = $_POST['product_id'];
+            $amount = $_POST['amount'];
+            $userProductModel = new UserProduct();
+            $userProductModel->deleteProduct($userId, $productId, $amount);
+        }
+        header("Location: /cart");
     }
     public function getAddProduct()
     {
@@ -59,7 +77,18 @@ class CartController
             }
             return $errors;
     }
-
+    private function validateDelete(array $data) {
+        $errors = [];
+        if (isset($data['product_id'])) {
+            $productId = $data['product_id'];
+            if (empty($productId)) {
+                $errors['product_id'] = 'Id товара не может быть пустым.';
+            }
+        } else {
+            $errors['product_id'] = 'Product_id не указан.';
+        }
+        return $errors;
+    }
     public function getCart()
     {
         session_start();

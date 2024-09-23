@@ -1,6 +1,7 @@
 <?php
 
-require_once './../Model/Model.php';
+namespace Model;
+use PDO;
 class User extends Model
 {
     public function getOneByEmail(string $email): array|false

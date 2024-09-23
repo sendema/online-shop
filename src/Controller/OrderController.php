@@ -1,8 +1,10 @@
 <?php
 
-require_once './../Model/User.php';
-require_once './../Model/Order.php';
-require_once './../Model/UserProduct.php';
+namespace Controller;
+
+use Model\Order;
+use Model\UserProduct;
+use PDO;
 
 class OrderController
 {
@@ -37,8 +39,6 @@ class OrderController
                 $stmt->execute(['order_id' => $orderId, 'product_id' => $userProduct['product_id'], 'amount' => $userProduct['amount']]);
             }
 
-            //$orderModel = new UserProduct();
-            //$orderModel->clearCart();
             $stmt = $pdo->prepare("DELETE FROM user_products WHERE user_id = :userId");
             $stmt->execute(['userId' => $userId]);
 

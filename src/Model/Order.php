@@ -1,6 +1,7 @@
 <?php
 
-require_once './../Model/Model.php';
+namespace Model;
+use PDO;
 class Order extends Model
 {
     public function create(string $name, string $phone, string $address, string $comment)
