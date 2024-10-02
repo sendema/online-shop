@@ -7,14 +7,14 @@
                 <a href="#">
                     <div class="card-header">
                     </div>
-                    <img class="card-img-top" src="<?php echo $product['image']; ?>" alt="Card image" width="500">
+                    <img class="card-img-top" src="<?php echo $product->getImage(); ?>" alt="Card image" width="500">
                     <div class="card-body">
-                        <p class="card-text text-muted"><?php echo $product['description']; ?></p>
-                        <a href="#"><h5 class="card-title"><?php echo $product['title']; ?></h5></a>
+                        <p class="card-text text-muted"><?php echo $product->getDescription(); ?></p>
+                        <a href="#"><h5 class="card-title"><?php echo $product->getTitle(); ?></h5></a>
                         <div class="card-footer">
-                            <?php echo $product['price'] . ' руб.'; ?>
+                            <?php echo $product->getPrice() . ' руб.'; ?>
                         </div>
-                            <?php echo 'Количество: ' . $product['amount'] . ' шт.'; ?>
+                            <?php echo 'Количество: ' . $product->getAmount() . ' шт.'; ?>
                     </div>
                     <button type="submit" class="registerbtn">Оформить заказ</button>
                 </a>

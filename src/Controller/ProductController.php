@@ -1,8 +1,8 @@
 <?php
 
 namespace Controller;
-
 use Model\Product;
+
 class ProductController
 {
     public function catalog()
@@ -16,6 +16,5 @@ class ProductController
         $products = $productModel->getAll();
 
         require_once './../View/get_catalog.php';
-
     }
 }
