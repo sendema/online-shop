@@ -1,23 +1,24 @@
 <?php
 
 namespace Controller;
-
 use Model\UserProduct;
 use Model\Product;
+use Request\AddProductRequest;
+use Request\DeleteProductRequest;
 
 class CartController
 {
-    public function addProduct()
+    public function addProduct(AddProductRequest $request)
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
             header("Location: /login");
         }
-        $errors = $this->validate($_POST);
+        $errors = $request->validate();
         $userId = $_SESSION['user_id'];
         if (empty($errors)) {
-            $productId = $_POST['product_id'];
-            $amount = $_POST['amount'];
+            $productId = $request->getProductId();
+            $amount = $request->getAmount();
             $userProductModel = new UserProduct();
             $result = $userProductModel->existProduct($productId, $userId,);
             if (empty($result)) {
@@ -30,17 +31,17 @@ class CartController
         }
         header("Location: /catalog");
     }
-    public function deleteProduct()
+    public function deleteProduct(DeleteProductRequest $request)
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
             header("Location: /login");
         }
-        $errors = $this->validateDelete($_POST);
+        $errors = $request->validateDelete();
         $userId = $_SESSION['user_id'];
         if (empty($errors)) {
-            $productId = $_POST['product_id'];
-            $amount = $_POST['amount'];
+            $productId = $request->getProductId();
+            $amount = $request->getAmount();
             $userProductModel = new UserProduct();
             $userProductModel->deleteProduct($userId, $productId, $amount);
         }
@@ -49,45 +50,6 @@ class CartController
     public function getAddProduct()
     {
         require_once './../View/get_add_product.php';
-    }
-    private function validate(array $data)
-    {
-            $errors = [];
-            if (isset($data['product_id'])) {
-                $productId = $data['product_id'];
-                if (empty($productId)) {
-                    $errors['product_id'] = 'Id товара не может быть пустым.';
-                } else {
-                    $userProductModel = new UserProduct();
-                    $result = $userProductModel->getIdProduct($data['product_id']);
-                    if (empty($result)) {
-                        $errors['product_id'] = 'Product_id не существует.';
-                    }
-                }
-            } else {
-                $errors['product_id'] = 'Product_id не указан.';
-            }
-            if (isset($data['amount'])) {
-                $amount = $data['amount'];
-                if (empty($amount) || $amount <= 0) {
-                    $errors['amount'] = 'Количество товара должно быть больше 0.';
-                }
-            } else {
-                $errors['amount'] = 'Amount не указан.';
-            }
-            return $errors;
-    }
-    private function validateDelete(array $data) {
-        $errors = [];
-        if (isset($data['product_id'])) {
-            $productId = $data['product_id'];
-            if (empty($productId)) {
-                $errors['product_id'] = 'Id товара не может быть пустым.';
-            }
-        } else {
-            $errors['product_id'] = 'Product_id не указан.';
-        }
-        return $errors;
     }
     public function getCart()
     {
@@ -103,13 +65,17 @@ class CartController
 
         $productModel = new Product();
         $products = [];
+
         foreach ($userProducts as $userProduct) {
-            $product = $productModel->getOneByProductId($userProduct['product_id']);
-            $product['amount'] = $userProduct['amount'];
+            $productId = $userProduct->getProductId();
+            $amount = $userProduct->getAmount();
+            $product = $productModel->getOneByProductId($productId);
 
-            $products[] = $product;
+            if ($product) {
+                $product-> setAmount($amount);
+                $products[] = $product;
+            }
         }
-
         require_once './../View/cart.php';
     }
 }

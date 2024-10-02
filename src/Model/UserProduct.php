@@ -4,20 +4,40 @@ namespace Model;
 use PDO;
 class UserProduct extends Model
 {
-    public function getIdProduct(int $productId): array|false
+    private int $id;
+    private int $userId;
+    private int $productId;
+    private int $amount;
+    public function getIdProduct(int $productId): ?self
     {
         $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = :product_id");
         $stmt->execute(['product_id' => $productId]);
         $result = $stmt->fetch();
 
-        return $result;
+        if ($result === false) {
+            return null;
+        }
+        $obj = new self();
+        $obj->id = $result["id"];
+
+        return $obj;
     }
-    public function existProduct(int $productId, int $userId): array|false
+    public function existProduct(int $productId, int $userId): ?self
     {
         $stmt = $this->pdo->prepare("SELECT * FROM user_products WHERE user_id = :user_id AND product_id = :product_id");
         $stmt->execute(['user_id' => $userId, 'product_id' => $productId]);
         $result = $stmt->fetch();
-        return $result;
+
+        if ($result === false) {
+            return null;
+        }
+        $obj = new self();
+        $obj->id = $result["id"];
+        $obj->userId = $result["user_id"];
+        $obj->productId = $result["product_id"];
+        $obj->amount = $result["amount"];
+
+        return $obj;
     }
     public function addProduct(int $userId, int $productId, int $amount)
     {
@@ -46,18 +66,45 @@ class UserProduct extends Model
             }
         }
     }
-
-    public function getAllByUserId(int $userId): array
+    public function getAllByUserId(int $userId): ?array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM user_products WHERE user_id = :user_id");
         $stmt->execute(['user_id' => $userId]);
         $result = $stmt->fetchAll();
-        return $result;
-    }
 
-    public function clearCart()
+        if ($result === false) {
+            return null;
+        }
+        $products = [];
+        foreach ($result as $row) {
+        $obj = new self();
+        $obj->id = $row['id'];
+        $obj->userId = $row['user_id'];
+        $obj->productId = $row['product_id'];
+        $obj->amount = $row['amount'];
+        $products[] = $obj;
+        }
+        return $products;
+    }
+    public function clearCart(int $userId)
     {
         $stmt = $this->pdo->prepare("DELETE FROM user_products WHERE user_id = :userId");
         $stmt->execute(['userId' => $userId]);
+    }
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+    public function getProductId(): int
+    {
+        return $this->productId;
+    }
+    public function getAmount(): int
+    {
+        return $this->amount;
     }
 }

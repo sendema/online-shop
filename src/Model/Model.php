@@ -8,8 +8,11 @@ class Model
 
     public function __construct()
     {
-        $this->pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", "dbuser", "dbpwd");
+        $db = getenv('DB_NAME');
+        $user = getenv('DB_USER');
+        $pass = getenv('DB_PASSWORD');
+
+        $this->pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", $user, $pass);
 
     }
-
 }
