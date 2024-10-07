@@ -12,7 +12,7 @@ class Model
         $user = getenv('DB_USER');
         $pass = getenv('DB_PASSWORD');
 
-        $this->pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", $user, $pass);
+        $this->pdo = new PDO("pgsql:host=db;port=5432;dbname=$db", $user, $pass);
 
     }
 }

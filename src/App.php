@@ -1,8 +1,4 @@
 <?php
-
-use Controller\CartController;
-use Controller\UserController;
-
 class App
 {
     private array $routes = [
@@ -75,9 +71,6 @@ class App
     {
         $requestUri = $_SERVER['REQUEST_URI'];
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        if ($requestMethod === 'POST') {
-            $requestData = $_POST;
-        }
 
         if (isset($this->routes[$requestUri])) {
             $route = $this->routes[$requestUri];
@@ -87,8 +80,16 @@ class App
                 $controller = new $controllerName();
                 if (isset($route[$requestMethod]['request'])) {
                     $requestClass = $route[$requestMethod]['request'];
-                    $request = new $requestClass($requestMethod, $requestUri, $requestData);
-                    $controller->$methodName($request);
+                    $request = new $requestClass($requestMethod, $requestUri, $_POST);
+                    try {
+                        $controller->$methodName($request);
+                    } catch (Throwable $exception) {
+                          $logger = new \Service\LoggerService();
+                          $logger->error($exception);
+
+                          http_response_code(500);
+                          require_once '../View/500.php';
+                    }
                 } else {
                     $controller->$methodName();
                 }
