@@ -34,8 +34,6 @@ class OrderController
             $orderModel = new UserProduct();
             $result = $orderModel->getAllByUserId($userId);
 
-            //$pdo = new PDO("pgsql:host=db;port=5432;dbname=dbname", "dbuser", "dbpwd");
-
             foreach ($result as $userProduct) {
                 $orderProductModel = new OrderProduct();
                 $orderProductModel->insert($orderId, $userProduct->getProductId(), $userProduct->getAmount());

@@ -1,0 +1,15 @@
+Message: Controller\UserController::login(): Argument #1 ($request) must be of type Request\LoginRequest, null given, called in /var/www/html/src/App.php on line 85
+File: /var/www/html/src/Controller/UserController.php
+Line: 40
+Datetime: 2024-10-03 15:00:57
+
+Message: Controller\UserController::login(): Argument #1 ($request) must be of type Request\LoginRequest, null given, called in /var/www/html/src/App.php on line 85
+File: /var/www/html/src/Controller/UserController.php
+Line: 40
+Datetime: 2024-10-03 15:01:18
+
+Message: Controller\UserController::login(): Argument #1 ($request) must be of type Request\LoginRequest, null given, called in /var/www/html/src/App.php on line 85
+File: /var/www/html/src/Controller/UserController.php
+Line: 40
+Datetime: 2024-10-07 11:59:13
+
