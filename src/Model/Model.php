@@ -4,15 +4,28 @@ namespace Model;
 use PDO;
 class Model
 {
-    protected PDO $pdo;
-
-    public function __construct()
+    protected static PDO $pdo;
+    public static function getPdo()
     {
-        $db = getenv('DB_NAME');
-        $user = getenv('DB_USER');
-        $pass = getenv('DB_PASSWORD');
-
-        $this->pdo = new PDO("pgsql:host=db;port=5432;dbname=$db", $user, $pass);
-
+        if (!isset(self::$pdo)){
+            $db = getenv('DB_NAME');
+            $user = getenv('DB_USER');
+            $pass = getenv('DB_PASSWORD');
+            self::$pdo = new PDO("pgsql:host=db;port=5432;dbname=$db", $user, $pass);
+            self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        return self::$pdo;
+    }
+    public function beginTransaction()
+    {
+        self::getPdo()->beginTransaction();
+    }
+    public function commit()
+    {
+        self::getPdo()->commit();
+    }
+    public function rollBack()
+    {
+        self::getPdo()->rollBack();
     }
 }

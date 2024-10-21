@@ -1,7 +1,6 @@
 <?php
 
 namespace Service;
-
 use Throwable;
 
 class LoggerService

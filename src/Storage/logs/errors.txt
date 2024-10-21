@@ -1,15 +1,25 @@
-Message: Controller\UserController::login(): Argument #1 ($request) must be of type Request\LoginRequest, null given, called in /var/www/html/src/App.php on line 85
-File: /var/www/html/src/Controller/UserController.php
-Line: 40
-Datetime: 2024-10-03 15:00:57
+Message:
+File: /var/www/html/src/Controller/OrderController.php
+Line: 71
+Datetime: 2024-10-16 13:24:37
 
-Message: Controller\UserController::login(): Argument #1 ($request) must be of type Request\LoginRequest, null given, called in /var/www/html/src/App.php on line 85
-File: /var/www/html/src/Controller/UserController.php
-Line: 40
-Datetime: 2024-10-03 15:01:18
+Message: 
+File: /var/www/html/src/Controller/OrderController.php
+Line: 71
+Datetime: 2024-10-16 13:26:11
 
-Message: Controller\UserController::login(): Argument #1 ($request) must be of type Request\LoginRequest, null given, called in /var/www/html/src/App.php on line 85
-File: /var/www/html/src/Controller/UserController.php
-Line: 40
-Datetime: 2024-10-07 11:59:13
+Message: 
+File: /var/www/html/src/Controller/OrderController.php
+Line: 71
+Datetime: 2024-10-16 13:29:00
+
+Message: Non-static method Model\Model::rollBack() cannot be called statically
+File: /var/www/html/src/Controller/OrderController.php
+Line: 70
+Datetime: 2024-10-16 14:03:36
+
+Message: 
+File: /var/www/html/src/Controller/OrderController.php
+Line: 67
+Datetime: 2024-10-16 14:10:01
 
