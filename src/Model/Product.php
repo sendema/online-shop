@@ -8,12 +8,11 @@ class Product extends Model
     private string $title;
     private string $description;
     private float $price;
-    private int $amount;
     private string $image;
-
+    private int $amount;
     public function getAll(): ?array
     {
-        $stmt = $this->pdo->query("SELECT * FROM products");
+        $stmt = self::getPdo()->query("SELECT * FROM products");
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if ($results === false) {
             return null;
@@ -32,7 +31,7 @@ class Product extends Model
     }
     public function getOneByProductId(int $productId): ?self
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = :id");
+        $stmt = self::getPdo()->prepare("SELECT * FROM products WHERE id = :id");
         $stmt->execute(['id' => $productId]);
         $result = $stmt->fetch();
 
@@ -47,6 +46,49 @@ class Product extends Model
         $obj->image = $result['image'];
 
         return $obj;
+    }
+    public function getAllByUserId(int $userId): ?array
+    {
+        $stmt = self::getPdo()->prepare("SELECT * FROM user_products WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $result = $stmt->fetchAll();
+
+        if ($result === false) {
+            return null;
+        }
+        $products = [];
+        foreach ($result as $row) {
+            $obj = new self();
+            $obj->id = $row['id'];
+            $obj->userId = $row['user_id'];
+            $obj->productId = $row['product_id'];
+            $obj->amount = $row['amount'];
+            $products[] = $obj;
+        }
+        return $products;
+    }
+    public function getAllProductsByUserId(int $userId): ?array
+    {
+        $stmt = self::getPdo()->prepare("SELECT products.*, user_products.amount FROM user_products JOIN products ON user_products.product_id = products.id WHERE user_products.user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $result = $stmt->fetchAll();
+
+        if ($result === false) {
+            return null;
+        }
+
+        $products = [];
+        foreach ($result as $row) {
+            $product = new Product();
+            $product->id = $row['id'];
+            $product->title = $row['title'];
+            $product->price = $row['price'];
+            $product->amount = $row['amount'];
+            $product->image = $row['image'];
+            $product->description = $row['description'];
+            $products[] = $product;
+        }
+        return $products;
     }
     public function getId(): int
     {
@@ -64,16 +106,12 @@ class Product extends Model
     {
         return $this->price;
     }
-    public function setAmount(int $amount)
+    public function getImage(): string
     {
-        return $this->amount = $amount;
+        return $this->image;
     }
     public function getAmount(): int
     {
         return $this->amount;
-    }
-    public function getImage(): string
-    {
-        return $this->image;
     }
 }

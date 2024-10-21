@@ -1,4 +1,5 @@
 <?php
+use Service\LoggerService;
 class App
 {
     private array $routes = [
@@ -57,7 +58,7 @@ class App
         '/order' => [
             'GET' => [
                 'class' => \Controller\OrderController::class,
-                'method' => 'getOrder',
+                'method' => 'getOrderPage',
             ],
             'POST' => [
                 'class' => \Controller\OrderController::class,
@@ -65,6 +66,12 @@ class App
                 'request' => \Request\OrderRequest::class,
             ],
         ],
+        '/orderDetails' => [
+            'GET' => [
+                'class' => \Controller\OrderController::class,
+                'method' => 'getOrderDetails',
+            ]
+        ]
     ];
 
     public function run()
@@ -84,17 +91,17 @@ class App
                     try {
                         $controller->$methodName($request);
                     } catch (Throwable $exception) {
-                          $logger = new \Service\LoggerService();
-                          $logger->error($exception);
+                        $logger = new LoggerService();
+                        $logger->error($exception);
 
-                          http_response_code(500);
-                          require_once '../View/500.php';
+                        http_response_code(500);
+                        require_once '../View/500.php';
                     }
                 } else {
-                    $controller->$methodName();
+                        $controller->$methodName();
                 }
             } else {
-                echo "$requestMethod не поддерживается для $route";
+                echo "$requestMethod не поддерживается для $requestUri";
             }
         } else {
             http_response_code(404);

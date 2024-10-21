@@ -60,22 +60,9 @@ class CartController
 
         $userId = $_SESSION['user_id'];
 
-        $userProductModel = new UserProduct();
-        $userProducts = $userProductModel->getAllByUserId($userId);
-
         $productModel = new Product();
-        $products = [];
+        $products = $productModel->getAllProductsByUserId($userId);
 
-        foreach ($userProducts as $userProduct) {
-            $productId = $userProduct->getProductId();
-            $amount = $userProduct->getAmount();
-            $product = $productModel->getOneByProductId($productId);
-
-            if ($product) {
-                $product-> setAmount($amount);
-                $products[] = $product;
-            }
-        }
         require_once './../View/cart.php';
     }
 }

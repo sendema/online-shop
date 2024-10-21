@@ -1,17 +1,20 @@
 <?php
 
 namespace Controller;
+use Model\Model;
 use Model\Order;
 use Model\OrderProduct;
+use Model\Product;
 use Model\UserProduct;
-use PDO;
+use mysql_xdevapi\Exception;
 use Request\OrderRequest;
+use Service\LoggerService;
 
 class OrderController
 {
-    public function getOrder()
+    public function getOrderPage()
     {
-        require_once './../View/get_order.php';
+        require_once './../View/get_order_page.php';
     }
     public function order(OrderRequest $request)
     {
@@ -27,23 +30,33 @@ class OrderController
             $address = $request->getAddress();
             $comment = $request->getComment();
 
-            $orderModel = new Order();
-            $order = $orderModel->create($name, $phone, $address, $comment);
-            $orderId = $order->getId();
-
-            $orderModel = new UserProduct();
-            $result = $orderModel->getAllByUserId($userId);
-
-            foreach ($result as $userProduct) {
-                $orderProductModel = new OrderProduct();
-                $orderProductModel->insert($orderId, $userProduct->getProductId(), $userProduct->getAmount());
-            }
+            //BEGIN; получить объект PDO и вызвать метод beginTrans
 
             $userProductModel = new UserProduct();
-            $userProduct->clearCart($userId);
+            $result = $userProductModel->getAllByUserId($userId);
+            $orderModel = new Order();
 
-            header("Location: /catalog");
+            try {
+                Model::getPdo()->beginTransaction();
+                $order = $orderModel->create($name, $phone, $address, $comment);
+                $orderId = $order->getId();
+
+                foreach ($result as $userProduct) {
+                    $orderProductModel = new OrderProduct();
+                    $orderProductModel->insert($orderId, $userProduct->getProductId(), $userProduct->getAmount());
+                }
+                $userProductModel->clearCart($userId);
+                //commit через объект PDO вызвать метод commit
+                //throw new \Exception();
+                Model::getPdo()->commit();
+            } catch (\Throwable $exception) {
+                Model::getPdo()->rollback();
+                $logger = new LoggerService();
+                $logger->error($exception);
+                // ROLLBACK откатить
+            }
+            header("Location: /orderDetails");
         }
-        require_once './../View/get_order.php';
+        require_once './../View/get_order_page.php';
     }
 }
