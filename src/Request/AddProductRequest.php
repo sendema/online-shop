@@ -19,6 +19,10 @@ class AddProductRequest
     {
         return $this->data;
     }
+    public function getId(): ?int
+    {
+        return $this->data['id'] ?? null;
+    }
     public function getProductId(): ?int
     {
         return $this->data['product_id'] ?? null;

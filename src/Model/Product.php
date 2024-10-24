@@ -29,44 +29,6 @@ class Product extends Model
         }
         return $products;
     }
-    public function getOneByProductId(int $productId): ?self
-    {
-        $stmt = self::getPdo()->prepare("SELECT * FROM products WHERE id = :id");
-        $stmt->execute(['id' => $productId]);
-        $result = $stmt->fetch();
-
-        if ($result === false) {
-            return null;
-        }
-        $obj = new self();
-        $obj->id = $result['id'];
-        $obj->title = $result['title'];
-        $obj->description = $result['description'];
-        $obj->price = $result['price'];
-        $obj->image = $result['image'];
-
-        return $obj;
-    }
-    public function getAllByUserId(int $userId): ?array
-    {
-        $stmt = self::getPdo()->prepare("SELECT * FROM user_products WHERE user_id = :user_id");
-        $stmt->execute(['user_id' => $userId]);
-        $result = $stmt->fetchAll();
-
-        if ($result === false) {
-            return null;
-        }
-        $products = [];
-        foreach ($result as $row) {
-            $obj = new self();
-            $obj->id = $row['id'];
-            $obj->userId = $row['user_id'];
-            $obj->productId = $row['product_id'];
-            $obj->amount = $row['amount'];
-            $products[] = $obj;
-        }
-        return $products;
-    }
     public function getAllProductsByUserId(int $userId): ?array
     {
         $stmt = self::getPdo()->prepare("SELECT products.*, user_products.amount FROM user_products JOIN products ON user_products.product_id = products.id WHERE user_products.user_id = :user_id");
@@ -89,6 +51,12 @@ class Product extends Model
             $products[] = $product;
         }
         return $products;
+    }
+    public function getAllByOrderId(int $orderId): ?array
+    {
+        $stmt = self::getPdo()->prepare("SELECT products.id, products.title, products.price, products.image, orders_products.amount
+                                        FROM products JOIN orders_products ON products.id = orders_products.product_id WHERE orders_products.order_id = :order_id");
+
     }
     public function getId(): int
     {
@@ -113,5 +81,9 @@ class Product extends Model
     public function getAmount(): int
     {
         return $this->amount;
+    }
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

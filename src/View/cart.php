@@ -24,32 +24,6 @@
     </div>
 </div>
 
-<!--<div class="container">-->
-<!--    <h3>Корзина</h3>-->
-<!--    <div class="card-deck">-->
-<!--        --><?php //foreach($products as $product): ?>
-<!--        <form action="/order" method="POST">-->
-<!--            <div class="card text-center">-->
-<!--                <a href="#">-->
-<!--                    <div class="card-header">-->
-<!--                    </div>-->
-<!--                    <img class="card-img-top" src="--><?php //echo $product->getImage(); ?><!--" alt="Card image" width="500">-->
-<!--                    <div class="card-body">-->
-<!--                        <p class="card-text text-muted">--><?php //echo $product->getDescription(); ?><!--</p>-->
-<!--                        <h5 class="card-title">--><?php //echo $product->getTitle(); ?><!--</h5>-->
-<!--                        <div class="card-footer">-->
-<!--                            --><?php //echo $product->getPrice() . ' руб.'; ?>
-<!--                        </div>-->
-<!--                        --><?php //echo 'Количество: ' . $product->getAmount() . ' шт.'; ?>
-<!--                        <button type="submit" class="registerbtn">Оформить заказ</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <input type="hidden" name="productId" value="--><?php //echo $product->getId(); ?><!--">-->
-<!--        </form>-->
-<!--        --><?php //endforeach; ?>
-<!--    </div>-->
-<!--</div>-->
-
 <style>
     body {
         font-style: sans-serif;

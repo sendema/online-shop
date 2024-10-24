@@ -4,9 +4,16 @@ namespace Controller;
 use Model\User;
 use Request\LoginRequest;
 use Request\RegistrateRequest;
+use Service\AuthService;
 
 class UserController
 {
+    private AuthService $authService;
+    public function __construct()
+    {
+        $this->authService = new AuthService();
+    }
+
     public function registrate(RegistrateRequest $request)
     {
         $errors = $request->validate();
@@ -47,19 +54,16 @@ class UserController
             $userModel = new User();
             $user = $userModel->getOneByEmail($username);
 
-            if (empty($user)) {
-                $errors['username'] = 'Email or Password is incorrect';
-            } else {
-                if (password_verify($password, $user->getPassword())) {
-                    session_start();
-                    $_SESSION['user_id'] = $user->getId();
-                    header("Location: /catalog");
-                } else {
-                    $errors['password'] = 'Email or Password is incorrect';
-                }
-            }
-        }
-        require_once './../View/get_login.php';
+            $authService = new AuthService();
+            $result = $authService->login($username, $password);
 
+            if ($result) {
+                header("Location: /catalog");
+            } else {
+                $errors['username'] = 'Email or Password is incorrect';
+            }
+
+            require_once './../View/get_login.php';
+        }
     }
 }
