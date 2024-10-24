@@ -7,14 +7,13 @@ use Model\User;
 class AuthService
 {
     private User $user;
-    public function __construct(User $user)
+    public function __construct()
     {
         $this->user = new User();
     }
     public function login(string $email, string $password): bool
     {
-        $userModel = new User();
-        $result = $userModel->getOneByEmail($email);
+        $result = $this->user->getOneByEmail($email);
         if (empty($result)) {
             return false;
         }
@@ -25,8 +24,22 @@ class AuthService
         }
         return false;
     }
-    public function getCurrentUser(): User
+    public function getCurrentUser(): ?User
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['user_id'])) {
+            return null;
+        }
+        return $this->user->getOneById($_SESSION['user_id']);
+    }
 
+    public function check(): bool
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        return isset($_SESSION['user_id']);
     }
 }

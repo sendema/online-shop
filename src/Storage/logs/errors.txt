@@ -1,25 +1,10 @@
-Message:
-File: /var/www/html/src/Controller/OrderController.php
-Line: 71
-Datetime: 2024-10-16 13:24:37
+Message: Call to a member function getId() on null
+File: /var/www/html/src/View/get_order_details.php
+Line: 85
+Datetime: 2024-10-24 11:10:03
 
-Message: 
-File: /var/www/html/src/Controller/OrderController.php
-Line: 71
-Datetime: 2024-10-16 13:26:11
-
-Message: 
-File: /var/www/html/src/Controller/OrderController.php
-Line: 71
-Datetime: 2024-10-16 13:29:00
-
-Message: Non-static method Model\Model::rollBack() cannot be called statically
-File: /var/www/html/src/Controller/OrderController.php
-Line: 70
-Datetime: 2024-10-16 14:03:36
-
-Message: 
-File: /var/www/html/src/Controller/OrderController.php
-Line: 67
-Datetime: 2024-10-16 14:10:01
+Message: syntax error, unexpected end of file
+File: /var/www/html/src/View/get_order_details.php
+Line: 197
+Datetime: 2024-10-24 11:20:48
 

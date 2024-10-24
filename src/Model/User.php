@@ -9,6 +9,23 @@ class User extends Model
     private string $email;
     private string $password;
 
+    public function getOneById(int $id): ?self
+    {
+        $stmt = self::getPdo()->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result === false) {
+            return null;
+        }
+        $obj = new self();
+        $obj->id = $result['id'];
+        $obj->name = $result['name'];
+        $obj->email = $result['email'];
+        $obj->password = $result['password'];
+
+        return $obj;
+    }
     public function getOneByEmail(string $email): ?self
     {
         $stmt = self::getPdo()->prepare("SELECT * FROM users WHERE email = :email");

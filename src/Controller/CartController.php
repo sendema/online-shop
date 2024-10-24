@@ -5,45 +5,52 @@ use Model\UserProduct;
 use Model\Product;
 use Request\AddProductRequest;
 use Request\DeleteProductRequest;
+use Service\AuthService;
+use Service\CartService;
 
 class CartController
 {
+    private AuthService $authService;
+    private CartService $cartService;
+    private UserProduct $userProductModel;
+
+    public function __construct()
+    {
+        $this->authService = new AuthService();
+        $this->cartService = new CartService();
+        $this->userProductModel = new UserProduct();
+    }
     public function addProduct(AddProductRequest $request)
     {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
+        $authService = new AuthService();
+        if (!$authService->check()) {
             header("Location: /login");
         }
+
         $errors = $request->validate();
-        $userId = $_SESSION['user_id'];
+        $userId = $authService->getCurrentUser()->getId();
+
         if (empty($errors)) {
             $productId = $request->getProductId();
             $amount = $request->getAmount();
-            $userProductModel = new UserProduct();
-            $result = $userProductModel->existProduct($productId, $userId,);
-            if (empty($result)) {
-                $userProductModel = new UserProduct();
-                $userProductModel->addProduct($userId, $productId, $amount);
-            } else {
-                $userProductModel = new UserProduct();
-                $userProductModel->updateAmount($userId, $productId, $amount);
-            }
+
+            $this->cartService->addProduct($userId, $productId, $amount);
         }
         header("Location: /catalog");
     }
     public function deleteProduct(DeleteProductRequest $request)
     {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
+        $authService = new AuthService();
+        if (!$authService->check()) {
             header("Location: /login");
         }
         $errors = $request->validateDelete();
-        $userId = $_SESSION['user_id'];
+        $userId = $authService->getCurrentUser()->getId();
+
         if (empty($errors)) {
             $productId = $request->getProductId();
             $amount = $request->getAmount();
-            $userProductModel = new UserProduct();
-            $userProductModel->deleteProduct($userId, $productId, $amount);
+            $this->userProductModel->deleteProduct($userId, $productId, $amount);
         }
         header("Location: /cart");
     }
@@ -53,12 +60,11 @@ class CartController
     }
     public function getCart()
     {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
+        $authService = new AuthService();
+        if (!$authService->check()) {
             header("Location: /login");
         }
-
-        $userId = $_SESSION['user_id'];
+        $userId = $authService->getCurrentUser()->getId();
 
         $productModel = new Product();
         $products = $productModel->getAllProductsByUserId($userId);

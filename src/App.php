@@ -66,11 +66,18 @@ class App
                 'request' => \Request\OrderRequest::class,
             ],
         ],
-        '/orderDetails' => [
+        '/myOrders' => [
             'GET' => [
                 'class' => \Controller\OrderController::class,
-                'method' => 'getOrderDetails',
-            ]
+                'method' => 'myOrders',
+            ],
+        ],
+        '/orderDetails' => [
+            'POST' => [
+                'class' => \Controller\OrderController::class,
+                'method' => 'orderDetails',
+                'request' => \Request\OrderDetailsRequest::class,
+            ],
         ]
     ];
 
