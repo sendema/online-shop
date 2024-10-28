@@ -9,25 +9,16 @@ use Model\Model;
 
 class OrderService
 {
-    private UserProduct $userProduct;
-    private Order $order;
-    private OrderProduct $orderProduct;
-    public function __construct()
-    {
-        $this->userProduct = new UserProduct();
-        $this->order = new Order();
-        $this->orderProduct = new OrderProduct();
-    }
     public function create(string $name, string $phone, string $address, string $comment, int $userId): bool
     {
-        $result = $this->userProduct->getAllByUserId($userId);
+        $result = UserProduct::getAllByUserId($userId);
         Model::getPdo()->beginTransaction();
         try {
-            $order = $this->order->create($name, $phone, $address, $comment, $userId);
+            $order = Order::create($name, $phone, $address, $comment, $userId);
             foreach ($result as $userProduct) {
-                $this->orderProduct->insert($order->getId(), $userProduct->getProductId(), $userProduct->getAmount());
+                OrderProduct::insert($order->getId(), $userProduct->getProductId(), $userProduct->getAmount());
             }
-            $this->userProduct->clearCart($userId);
+            UserProduct::clearCart($userId);
 
             Model::getPdo()->commit();
 

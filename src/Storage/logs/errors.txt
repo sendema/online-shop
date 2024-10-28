@@ -1,10 +1,1 @@
-Message: Call to a member function getId() on null
-File: /var/www/html/src/View/get_order_details.php
-Line: 85
-Datetime: 2024-10-24 11:10:03
-
-Message: syntax error, unexpected end of file
-File: /var/www/html/src/View/get_order_details.php
-Line: 197
-Datetime: 2024-10-24 11:20:48
 

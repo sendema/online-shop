@@ -1,19 +1,14 @@
 <?php
 
-namespace Service;
+namespace Service\Auth;
 
 use Model\User;
 
-class AuthService
+class AuthSessionService implements AuthServiceInterface
 {
-    private User $user;
-    public function __construct()
-    {
-        $this->user = new User();
-    }
     public function login(string $email, string $password): bool
     {
-        $result = $this->user->getOneByEmail($email);
+        $result = User::getOneByEmail($email);
         if (empty($result)) {
             return false;
         }
@@ -32,7 +27,7 @@ class AuthService
         if (!isset($_SESSION['user_id'])) {
             return null;
         }
-        return $this->user->getOneById($_SESSION['user_id']);
+        return User::getOneById($_SESSION['user_id']);
     }
 
     public function check(): bool
@@ -42,4 +37,5 @@ class AuthService
         }
         return isset($_SESSION['user_id']);
     }
+
 }
