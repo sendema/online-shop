@@ -5,30 +5,31 @@ use Model\UserProduct;
 use Model\Product;
 use Request\AddProductRequest;
 use Request\DeleteProductRequest;
-use Service\AuthService;
+use Service\Auth\AuthSessionService;
+use Service\Auth\AuthServiceInterface;
 use Service\CartService;
 
 class CartController
 {
-    private AuthService $authService;
+    private AuthServiceInterface $authService;
     private CartService $cartService;
-    private UserProduct $userProductModel;
 
-    public function __construct()
+    public function __construct(
+        CartService $cartService,
+        AuthServiceInterface $authService)
     {
-        $this->authService = new AuthService();
-        $this->cartService = new CartService();
-        $this->userProductModel = new UserProduct();
+        $this->authService = $authService;
+        $this->cartService = $cartService;
     }
     public function addProduct(AddProductRequest $request)
     {
-        $authService = new AuthService();
-        if (!$authService->check()) {
+        //$authService = new AuthService();
+        if (!$this->authService->check()) {
             header("Location: /login");
         }
 
         $errors = $request->validate();
-        $userId = $authService->getCurrentUser()->getId();
+        $userId = $this->authService->getCurrentUser()->getId();
 
         if (empty($errors)) {
             $productId = $request->getProductId();
@@ -40,17 +41,16 @@ class CartController
     }
     public function deleteProduct(DeleteProductRequest $request)
     {
-        $authService = new AuthService();
-        if (!$authService->check()) {
+        if (!$this->authService->check()) {
             header("Location: /login");
         }
         $errors = $request->validateDelete();
-        $userId = $authService->getCurrentUser()->getId();
+        $userId = $this->authService->getCurrentUser()->getId();
 
         if (empty($errors)) {
             $productId = $request->getProductId();
             $amount = $request->getAmount();
-            $this->userProductModel->deleteProduct($userId, $productId, $amount);
+            UserProduct::deleteProduct($userId, $productId, $amount);
         }
         header("Location: /cart");
     }
@@ -60,14 +60,12 @@ class CartController
     }
     public function getCart()
     {
-        $authService = new AuthService();
-        if (!$authService->check()) {
+        if (!$this->authService->check()) {
             header("Location: /login");
         }
-        $userId = $authService->getCurrentUser()->getId();
+        $userId = $this->authService->getCurrentUser()->getId();
 
-        $productModel = new Product();
-        $products = $productModel->getAllProductsByUserId($userId);
+        $products = Product::getAllProductsByUserId($userId);
 
         require_once './../View/cart.php';
     }

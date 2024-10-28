@@ -4,14 +4,14 @@ namespace Controller;
 use Model\User;
 use Request\LoginRequest;
 use Request\RegistrateRequest;
-use Service\AuthService;
+use Service\Auth\AuthServiceInterface;
 
 class UserController
 {
-    private AuthService $authService;
-    public function __construct()
+    private AuthServiceInterface $authService;
+    public function __construct(AuthServiceInterface $authService)
     {
-        $this->authService = new AuthService();
+        $this->authService = $authService;
     }
 
     public function registrate(RegistrateRequest $request)
@@ -25,11 +25,9 @@ class UserController
 
             $pswHashed = password_hash($psw, PASSWORD_DEFAULT);
 
-            $userModel = new User();
+            User::create($name, $email, $pswHashed);
 
-            $userModel->create($name, $email, $pswHashed);
-
-            $userModel->getOneByEmail($email);
+            User::getOneByEmail($email);
 
             header("Location: /login");
         }
@@ -51,11 +49,9 @@ class UserController
             $username = $request->getUsername();
             $password = $request->getPassword();
 
-            $userModel = new User();
-            $user = $userModel->getOneByEmail($username);
+            User::getOneByEmail($username);
 
-            $authService = new AuthService();
-            $result = $authService->login($username, $password);
+            $result = $this->authService->login($username, $password);
 
             if ($result) {
                 header("Location: /catalog");

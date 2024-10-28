@@ -10,7 +10,7 @@ class Product extends Model
     private float $price;
     private string $image;
     private int $amount;
-    public function getAll(): ?array
+    public static function getAll(): ?array
     {
         $stmt = self::getPdo()->query("SELECT * FROM products");
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,7 +29,7 @@ class Product extends Model
         }
         return $products;
     }
-    public function getAllProductsByUserId(int $userId): ?array
+    public static function getAllProductsByUserId(int $userId): ?array
     {
         $stmt = self::getPdo()->prepare("SELECT products.*, user_products.amount FROM user_products JOIN products ON user_products.product_id = products.id WHERE user_products.user_id = :user_id");
         $stmt->execute(['user_id' => $userId]);
@@ -51,12 +51,6 @@ class Product extends Model
             $products[] = $product;
         }
         return $products;
-    }
-    public function getAllByOrderId(int $orderId): ?array
-    {
-        $stmt = self::getPdo()->prepare("SELECT products.id, products.title, products.price, products.image, orders_products.amount
-                                        FROM products JOIN orders_products ON products.id = orders_products.product_id WHERE orders_products.order_id = :order_id");
-
     }
     public function getId(): int
     {

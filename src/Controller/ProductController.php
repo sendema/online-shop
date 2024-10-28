@@ -2,24 +2,22 @@
 
 namespace Controller;
 use Model\Product;
-use Service\AuthService;
+use Service\Auth\AuthServiceInterface;
 
 class ProductController
 {
-    private AuthService  $authService;
-    public function __construct()
+    private AuthServiceInterface  $authService;
+    public function __construct(AuthServiceInterface $authService)
     {
-        $this->authService = new AuthService();
+        $this->authService = $authService;
     }
     public function catalog()
     {
-        $authService = new AuthService();
-        if (!$authService->check()) {
+        if (!$this->authService->check()) {
             header("Location: /login");
         }
 
-        $productModel = new Product();
-        $products = $productModel->getAll();
+        $products = Product::getAll();
 
         require_once './../View/get_catalog.php';
     }

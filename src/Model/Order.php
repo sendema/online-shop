@@ -16,7 +16,7 @@ class Order extends Model
     private string $image;
     private string $title;
 
-    public function create(string $name, string $phone, string $address, string $comment, int $userId): ?self
+    public static function create(string $name, string $phone, string $address, string $comment, int $userId): ?self
     {
         $stmt = self::getPdo()->prepare("INSERT INTO orders (name, phone, address, comment, user_id) VALUES (:name, :phone, :address, :comment, :userId) RETURNING id");
         $stmt->execute(['name' => $name, 'phone' => $phone, 'address' => $address, 'comment' => $comment, 'userId' => $userId]);
@@ -35,7 +35,7 @@ class Order extends Model
 
         return $obj;
     }
-    public function getUserOrders(int $userId): ?array
+    public static function getUserOrders(int $userId): ?array
     {
         $stmt = self::getPdo()->prepare("SELECT orders.id, orders.name, orders.phone, orders.address, orders.comment, orders_products.product_id, orders_products.amount
                                             FROM orders 
@@ -61,7 +61,7 @@ class Order extends Model
         }
         return $orders;
     }
-    public function getOrderDetails(int $orderId): ?array
+    public static function getOrderDetails(int $orderId): ?array
     {
         $stmt = self::getPdo()->prepare("SELECT orders.id, orders_products.product_id, orders_products.amount, products.title, products.image
                                         FROM orders JOIN orders_products ON orders.id = orders_products.order_id
@@ -76,7 +76,6 @@ class Order extends Model
         foreach ($result as $row) {
             $order = new Order();
             $order->id = $row['id'];
-            //$order->orderId = $row['order_id'];
             $order->productId = $row['product_id'];
             $order->amount = $row['amount'];
             $order->title = $row['title'];
