@@ -1,15 +1,17 @@
 <?php
 
-namespace Service;
+namespace Service\Logger;
 use Throwable;
 
-class LoggerService
+class LoggerFileService implements LoggerServiceInterface
 {
     private string $logFile;
+
     public function __construct()
     {
-        $this->logFile = __DIR__ . '/../Storage/logs/errors.txt';
+        $this->logFile = __DIR__ . '/../../Storage/logs/errors.txt';
     }
+
     public function error(Throwable $exception): void
     {
         $errorMess = "Message: " . $exception->getMessage() . "\n";

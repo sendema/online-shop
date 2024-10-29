@@ -1,8 +1,9 @@
 <?php
 
 use Core\App;
-use Service\AuthService;
-use Service\CartService;
+use Core\Container;
+use Service\Logger\LoggerDbService;
+use Service\Logger\LoggerFileService;
 
 $autoloader = function (string $className) {
     $modifiedClassName = str_replace('\\', '/', $className);
@@ -18,31 +19,37 @@ $autoloader = function (string $className) {
 spl_autoload_register($autoloader);
 
 $container = new Core\Container();
+$loggerService = new LoggerDbService();
 
-$container->set(\Controller\CartController::class, function () {
+$container->set(\Controller\CartController::class, function (Container $container) {
     $cartService = new \Service\CartService();
-    $authService = new \Service\Auth\AuthSessionService();
+    $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
 
     return new \Controller\CartController($cartService, $authService);
 });
-$container->set(\Controller\OrderController::class, function () {
-    $authService = new \Service\Auth\AuthSessionService();
+$container->set(\Controller\OrderController::class, function (Container $container) {
+    $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
     $orderService = new \Service\OrderService();
 
     return new \Controller\OrderController($authService, $orderService);
 });
-$container->set(\Controller\UserController::class, function () {
-    $authService = new \Service\Auth\AuthSessionService();
+$container->set(\Controller\UserController::class, function (Container $container) {
+    $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
 
     return new \Controller\UserController($authService);
 });
-$container->set(\Controller\ProductController::class, function () {
-    $authService = new \Service\Auth\AuthSessionService();
+$container->set(\Controller\ProductController::class, function (Container $container) {
+    $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
 
     return new \Controller\ProductController($authService);
 });
-
-$app = new App($container);
+$container->set(\Service\Auth\AuthServiceInterface::class, function () {
+    return new \Service\Auth\AuthSessionService();
+});
+$container->set(\Service\Logger\LoggerServiceInterface::class, function () {
+    return new \Service\Logger\LoggerDbService();
+});
+$app = new App($container, $loggerService);
 $app->createRoute('/login', 'GET', \Controller\UserController::class, 'getLogin');
 $app->createRoute('/login', 'POST', \Controller\UserController::class, 'login', \Request\LoginRequest::class);
 $app->createRoute('/registrate', 'GET', \Controller\UserController::class, 'getRegistrate');

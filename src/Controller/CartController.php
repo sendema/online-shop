@@ -29,7 +29,7 @@ class CartController
         }
 
         $errors = $request->validate();
-        $userId = $this->authService->getCurrentUser()->getId();
+        //$userId = $this->authService->getCurrentUser()->getId();
 
         if (empty($errors)) {
             $productId = $request->getProductId();

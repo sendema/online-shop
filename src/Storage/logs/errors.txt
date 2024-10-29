@@ -1,1 +1,5 @@
+Message: Service\CartService::addProduct(): Argument #1 ($userId) must be of type int, null given, called in /var/www/html/src/Controller/CartController.php on line 38
+File: /var/www/html/src/Service/CartService.php
+Line: 9
+Datetime: 2024-10-29 14:00:50
 
