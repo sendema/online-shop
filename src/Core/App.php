@@ -1,15 +1,18 @@
 <?php
 
 namespace Core;
-
-use Service\LoggerService;
+use Service\Logger\LoggerServiceInterface;
 use Throwable;
 
 class App
 {
     private array $routes;
-    public function __construct(private Container $container)
+    private Container $container;
+    private LoggerServiceInterface $loggerService;
+    public function __construct(Container $container, LoggerServiceInterface $loggerService)
     {
+        $this->container = $container;
+        $this->loggerService = $loggerService;
     }
 
     public function run()
@@ -33,8 +36,7 @@ class App
                         // передаем объект request
                         $controller->$methodName($request);
                     } catch (Throwable $exception) {
-                        $logger = new LoggerService();
-                        $logger->error($exception);
+                        $this->loggerService->error($exception);
 
                         http_response_code(500);
                         require_once '../View/500.php';
