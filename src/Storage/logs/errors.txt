@@ -3,3 +3,108 @@ File: /var/www/html/src/Service/CartService.php
 Line: 9
 Datetime: 2024-10-29 14:00:50
 
+Message: Call to a member function getImage() on null
+File: /var/www/html/src/View/get_product_info.php
+Line: 97
+Datetime: 2024-10-31 06:09:24
+
+Message: Request\AddReviewRequest::getUserId(): Return value must be of type ?int, string returned
+File: /var/www/html/src/Request/AddReviewRequest.php
+Line: 33
+Datetime: 2024-10-31 08:10:16
+
+Message: Request\AddReviewRequest::getUserId(): Return value must be of type ?int, string returned
+File: /var/www/html/src/Request/AddReviewRequest.php
+Line: 33
+Datetime: 2024-10-31 08:26:26
+
+Message: Call to undefined method Model\Product::getAverageRating()
+File: /var/www/html/src/View/get_product_info.php
+Line: 122
+Datetime: 2024-10-31 08:56:29
+
+Message: Call to undefined method Model\Product::getAverageRating()
+File: /var/www/html/src/View/get_product_info.php
+Line: 122
+Datetime: 2024-10-31 08:59:02
+
+Message: Class "Model\Rating" not found
+File: /var/www/html/src/Model/Review.php
+Line: 53
+Datetime: 2024-10-31 10:22:29
+
+Message: Class "Model\Rating" not found
+File: /var/www/html/src/Model/Review.php
+Line: 53
+Datetime: 2024-10-31 10:22:32
+
+Message: Class "Model\Rating" not found
+File: /var/www/html/src/Model/Review.php
+Line: 53
+Datetime: 2024-10-31 10:50:28
+
+Message: Class "Model\Rating" not found
+File: /var/www/html/src/Model/Review.php
+Line: 53
+Datetime: 2024-10-31 10:50:32
+
+Message: Class "Model\Rating" not found
+File: /var/www/html/src/Model/Review.php
+Line: 53
+Datetime: 2024-10-31 10:50:35
+
+Message: Class "Model\Rating" not found
+File: /var/www/html/src/Model/Review.php
+Line: 53
+Datetime: 2024-10-31 10:50:47
+
+Message: Class "Model\Rating" not found
+File: /var/www/html/src/Model/Review.php
+Line: 53
+Datetime: 2024-10-31 10:50:51
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, array returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 11:48:41
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, array returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 11:48:45
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, null returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 13:17:02
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, null returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 13:17:05
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, null returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 13:17:07
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, null returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 13:17:18
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, null returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 13:17:21
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, null returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 13:25:04
+
+Message: Model\Review::getAverageRatingByProductId(): Return value must be of type float, null returned
+File: /var/www/html/src/Model/Review.php
+Line: 51
+Datetime: 2024-10-31 13:25:08
+

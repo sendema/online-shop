@@ -98,5 +98,6 @@
 <?php else: ?>
     <p>У вас пока нет заказов.</p>
 <?php endif; ?>
+<a href="/catalog" class="catalog-link">Перейти в каталог</a>
 </body>
 </html>

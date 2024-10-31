@@ -1,7 +1,7 @@
 <form action="/registrate" method="POST">
     <div class="container">
-        <h1>Register</h1>
-        <p>Please fill in this form to create an account.</p>
+        <h1>Регистрация</h1>
+        <p>Заполните эту форму, чтобы создать учетную запись.</p>
         <hr>
 
         <label for="name"><b>Name</b></label>
@@ -32,12 +32,12 @@
         }?></label>
         <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
         <hr>
-        <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-        <button type="submit" class="registerbtn">Register</button>
+        <p>Создавая учетную запись, вы соглашаетесь с нашими <a href="#">Terms & Privacy</a>.</p>
+        <button type="submit" class="registerbtn">Зарегистрироваться</button>
     </div>
 
     <div class="container signin">
-        <p>Already have an account? <a href="#">Sign in</a>.</p>
+        <p>Уже зарегистрированы? <a href="/login">Войти</a>.</p>
     </div>
 </form>
 
@@ -71,7 +71,7 @@ hr {
 
 /* Set a style for the submit/register button */
 .registerbtn {
-    background-color: palevioletred;
+    background-color: #333;
     color: white;
     padding: 16px 20px;
     margin: 8px 0;

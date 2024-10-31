@@ -19,7 +19,7 @@ $autoloader = function (string $className) {
 spl_autoload_register($autoloader);
 
 $container = new Core\Container();
-$loggerService = new LoggerDbService();
+$loggerService = new LoggerFileService();
 
 $container->set(\Controller\CartController::class, function (Container $container) {
     $cartService = new \Service\CartService();
@@ -47,7 +47,7 @@ $container->set(\Service\Auth\AuthServiceInterface::class, function () {
     return new \Service\Auth\AuthSessionService();
 });
 $container->set(\Service\Logger\LoggerServiceInterface::class, function () {
-    return new \Service\Logger\LoggerDbService();
+    return new \Service\Logger\LoggerFileService();
 });
 $app = new App($container, $loggerService);
 $app->createRoute('/login', 'GET', \Controller\UserController::class, 'getLogin');
@@ -63,6 +63,9 @@ $app->createRoute('/order', 'GET', \Controller\OrderController::class, 'getOrder
 $app->createRoute('/order', 'POST', \Controller\OrderController::class, 'order', \Request\OrderRequest::class);
 $app->createRoute('/myOrders', 'GET', \Controller\OrderController::class, 'myOrders');
 $app->createRoute('/orderDetails', 'POST', \Controller\OrderController::class, 'orderDetails', \Request\OrderDetailsRequest::class);
+$app->createRoute('/productInfo', 'POST', \Controller\ProductController::class, 'productInfo', \Request\ProductInfoRequest::class);
+$app->createRoute('/addReview', 'POST', \Controller\ProductController::class, 'addReview', \Request\AddReviewRequest::class);
+//$app->createRoute('/homePage', 'GET',  );
 $app->run();
 
 

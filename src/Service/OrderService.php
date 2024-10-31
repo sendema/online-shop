@@ -6,6 +6,7 @@ use Model\Order;
 use Model\OrderProduct;
 use Model\UserProduct;
 use Model\Model;
+use Service\Logger\LoggerFileService;
 
 class OrderService
 {
@@ -26,8 +27,8 @@ class OrderService
         } catch (\Throwable $exception) {
             Model::getPdo()->rollback();
 
-            $logger = new LoggerService();
-            $logger->error($exception);
+            $loggerService = new LoggerFileService();
+            $loggerService->error($exception);
 
             return false;
         }
