@@ -11,7 +11,6 @@ use mysql_xdevapi\Exception;
 use Request\OrderDetailsRequest;
 use Request\OrderRequest;
 use Service\Auth\AuthServiceInterface;
-use Service\LoggerService;
 use Service\OrderService;
 
 class OrderController

@@ -58,9 +58,9 @@
 
     /* Set a style for the submit/register button */
     .registerbtn {
-        background-color: palevioletred;
+        background-color: #333;
         color: white;
-        padding: 16px 20px;
+        padding: 18px 20px;
         margin: 8px 0;
         border: none;
         cursor: pointer;
