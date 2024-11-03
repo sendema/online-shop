@@ -85,9 +85,9 @@ class Order extends Model
 
         return $orderDetails;
     }
-    public static function checkUserHasOrderedProduct(int $userId, int $productId): ?self
+    public static function checkUserHasOrderedProduct(int $userId, int $productId): bool
     {
-        $stmt = self::$pdo->prepare("SELECT orders.* FROM orders 
+        $stmt = self::$pdo->prepare("SELECT 1 FROM orders 
                                             JOIN orders_products ON orders.id = orders_products.order_id
                                             WHERE orders.user_id = :userId 
                                             AND orders_products.product_id = :productId
@@ -96,16 +96,9 @@ class Order extends Model
         $result = $stmt->fetch();
 
         if ($result === false) {
-            return null;
+            return false;
         }
-        $obj = new self();
-        $obj->id = $result['id'];
-        $obj->name = $result['name'];
-        $obj->phone = $result['phone'];
-        $obj->address = $result['address'];
-        $obj->comment = $result['comment'];
-
-        return $obj;
+        return true;
     }
     public function getId(): int
     {
