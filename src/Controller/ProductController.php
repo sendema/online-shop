@@ -7,13 +7,18 @@ use Model\Review;
 use Request\AddReviewRequest;
 use Request\ProductInfoRequest;
 use Service\Auth\AuthServiceInterface;
+use Service\ReviewService;
 
 class ProductController
 {
     private AuthServiceInterface  $authService;
-    public function __construct(AuthServiceInterface $authService)
+    private ReviewService $reviewService;
+    public function __construct(
+        AuthServiceInterface $authService,
+        ReviewService $reviewService)
     {
         $this->authService = $authService;
+        $this->reviewService = $reviewService;
     }
     public function catalog()
     {
@@ -57,14 +62,7 @@ class ProductController
             $rating = $request->getRating();
             $text = $request->getText();
 
-            $result = Order::checkUserHasOrderedProduct($userId, $productId);
-            if ($result) {
-                Review::create($productId, $userId, $name, $rating, $text);
-                header("Location: /catalog");
-            } else {
-                http_response_code(500);
-                require_once './../View/500.php';
-            }
+            $this->reviewService->create($productId, $userId, $name, $rating, $text);
         }
         require_once './../View/get_review.php';
     }

@@ -40,8 +40,9 @@ $container->set(\Controller\UserController::class, function (Container $containe
 });
 $container->set(\Controller\ProductController::class, function (Container $container) {
     $authService = $container->get(\Service\Auth\AuthServiceInterface::class);
+    $reviewService = new \Service\ReviewService();
 
-    return new \Controller\ProductController($authService);
+    return new \Controller\ProductController($authService, $reviewService);
 });
 $container->set(\Service\Auth\AuthServiceInterface::class, function () {
     return new \Service\Auth\AuthSessionService();
@@ -49,6 +50,7 @@ $container->set(\Service\Auth\AuthServiceInterface::class, function () {
 $container->set(\Service\Logger\LoggerServiceInterface::class, function () {
     return new \Service\Logger\LoggerFileService();
 });
+
 $app = new App($container, $loggerService);
 $app->createRoute('/login', 'GET', \Controller\UserController::class, 'getLogin');
 $app->createRoute('/login', 'POST', \Controller\UserController::class, 'login', \Request\LoginRequest::class);
@@ -65,7 +67,6 @@ $app->createRoute('/myOrders', 'GET', \Controller\OrderController::class, 'myOrd
 $app->createRoute('/orderDetails', 'POST', \Controller\OrderController::class, 'orderDetails', \Request\OrderDetailsRequest::class);
 $app->createRoute('/productInfo', 'POST', \Controller\ProductController::class, 'productInfo', \Request\ProductInfoRequest::class);
 $app->createRoute('/addReview', 'POST', \Controller\ProductController::class, 'addReview', \Request\AddReviewRequest::class);
-//$app->createRoute('/homePage', 'GET',  );
 $app->run();
 
 
